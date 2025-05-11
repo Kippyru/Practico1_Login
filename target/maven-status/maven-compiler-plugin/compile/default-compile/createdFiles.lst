@@ -1,2 +1,4 @@
-com\grupo2turbopascal\practico1\JAXRSConfiguration.class
+com\grupo2turbopascal\practico1\servlets\SvUsuarios.class
 com\grupo2turbopascal\practico1\resources\JavaEE8Resource.class
+com\grupo2turbopascal\practico1\JAXRSConfiguration.class
+logica\Usuario.class
