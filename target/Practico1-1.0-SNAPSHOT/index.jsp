@@ -10,8 +10,20 @@
   <meta charset="UTF-8">
   <title>Registro</title>
   <style>
-   body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f2f2f2; }
-    .box { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px #ccc; width: 280px; text-align: center; }
+   body     { font-family: sans-serif; 
+              display: flex; 
+              justify-content: 
+              center; 
+              align-items: 
+              center; 
+              height: 100vh; 
+              background: #f2f2f2; }
+   .box    { background: #fff; 
+             padding: 20px; 
+             border-radius: 10px; 
+             box-shadow: 0 0 10px #ccc; 
+             width: 280px; 
+             text-align: center; }
   </style>
 </head>
 <body>
@@ -23,7 +35,7 @@
       <input type="password" name="password" placeholder="Contraseña" required><br>
       <button type="submit">Entrar</button>
       <div class="register">
-        ¿No tenes cuenta? <a href="registro.html">Regístrate</a>
+        ¿No tenés cuenta? <a href="registro.jsp">Regístrate</a>
       </div>
     </form>
   </div>

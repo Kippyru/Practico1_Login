@@ -6,64 +6,67 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import logica.Usuario;
 
-/**
- *
- * @author Kevin
- */
 @WebServlet(name = "SvUsuarios", urlPatterns = {"/SvUsuarios"})
 public class SvUsuarios extends HttpServlet {
 
-    
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-    }
+    // Lista guardar usuarios en memoria
+    private static List<Usuario> listaUsuarios = new ArrayList<>();
 
-    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        List<Usuario> listaUsuarios = new ArrayList<>();
-        listaUsuarios.add(new Usuario("Test", "1234"));
-        
-        HttpSession misesion = request.getSession();
-        misesion.setAttribute("listaUsuarios", listaUsuarios);
-        
-        response.sendRedirect("Registrar.jsp");
+
+        // Registra las personas nuevos desde registro.jsp :3
+        String nombre = request.getParameter("nombre");
+        String contraseña = request.getParameter("contraseña");
+
+        if (nombre != null && contraseña != null) {
+            Usuario nuevo = new Usuario(nombre, contraseña);
+            listaUsuarios.add(nuevo);
+            HttpSession sesion = request.getSession();
+            sesion.setAttribute("username", nombre);
+            response.sendRedirect("bienvenido.jsp");
+        } else {
+    
+            response.sendRedirect("registro.jsp");
+        }
     }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        
-        System.out.println("El user es: " + username);
-        System.out.println("El pass es: " + password);
-        
-        if ("Test".equals(username) && "1234".equals(password)) {
-            request.setAttribute("username", username);
+
+        boolean encontrado = false;
+
+        for (Usuario u : listaUsuarios) {
+            if (u.getUsername().equals(username) && u.getPassword().equals(password)) {
+                encontrado = true;
+                break;
+            }
+        }
+
+        if (encontrado) {
+            HttpSession sesion = request.getSession();
+            sesion.setAttribute("username", username);
             response.sendRedirect("bienvenido.jsp");
-       
-         } else {
+        } else {
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
-            out.println("<html><body><h3>Credenciales incorrectas.</h3></body></html>");
-        }   
+            out.println("<html><body><h3>Credenciales incorrectas.</h3>");
+            out.println("<a href='index.jsp'>Volver</a></body></html>");
+        }
     }
 
-    
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Servlet que maneja el registro e inicio de sesión de usuarios.";
+    }
 }
+
+// Todos los datos se borran cuando apagues el server porque no usas una base de datos de sql w
